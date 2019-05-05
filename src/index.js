@@ -22,30 +22,18 @@
     }
 
     container.appendChild(ce('article'));
-    const heading = ce('h2');
-    heading.textContent = board.title;
-    const header = ce('header');
-    header.appendChild(heading);
-    container.querySelector('article').appendChild(header);
+    container.querySelector('article').appendChild(buildHeader(board.title));
 
     for (let list of board.lists || []) {
       const listContainer = ce('article');
-      const heading = ce('h3');
-      heading.textContent = list.title;
-      const header = ce('header');
-      header.appendChild(heading);
-      listContainer.appendChild(header);
+      listContainer.appendChild(buildHeader(list.title, 2));
 
       const cardsContainer = ce('ul');
       for (let card of list.cards || []) {
         const cardContainer = ce('li');
         const cardContent = ce('article');
 
-        const heading = ce('h4');
-        heading.textContent = card.title;
-        const header = ce('header');
-        header.appendChild(heading);
-        cardContent.appendChild(header);
+        cardContent.appendChild(buildHeader(card.title, 3));
 
         const description = ce('p');
         description.textContent = card.description;
@@ -63,5 +51,13 @@
 
   function ce(tagName) {
     return document.createElement(tagName);
+  }
+
+  function buildHeader(title, level = 1) {
+    const heading = ce(`h${level}`);
+    heading.textContent = title;
+    const header = ce('header');
+    header.appendChild(heading);
+    return header;
   }
 })();
